@@ -8,7 +8,7 @@ class Categorias {
         this.action = action;
     }
 
-    agregarCategoria() {
+    agregarCategoria(id, funcion) {
         if (this.nombre == "") {
             document.getElementById("Nombre").focus();
         } else {
@@ -28,7 +28,7 @@ class Categorias {
                         type: 'POST',
                         url: action,
                         data: {
-                            nombre, descripcion, estado
+                            id,nombre, descripcion, estado, funcion
                         },
                         success: (response) => {
                             $.each(response, (index, val) => {
@@ -66,7 +66,7 @@ class Categorias {
         })
     }
 
-    getCategorias(id) {
+    getCategorias(id, funcion) {
         var action = this.action;
         $.ajax({
             type: 'POST',
@@ -74,10 +74,52 @@ class Categorias {
             data: { id },
             success: (response) => {
                 console.log(response);
+                if (funcion == 0) {
+                    if (response[0].estado) {
+                        document.getElementById("titleCategoria").innerHTML = "Esta seguro de desactivar la categoria" +
+                            response[0].nombre;
+
+                    } else {
+                        document.getElementById("titleCategoria").innerHTML = "Esta seguro de habilitar la categoria " +
+                            response[0].nombre;
+                    }
+                } else {
+                    document.getElementById("Nombre").value = response[0].nombre;
+                    document.getElementById("Descripcion").value = response[0].descripcion;
+                    if (response[0].estado) {
+                        document.getElementById("Estado").selectedIndex = 1;
+                    } else {
+                        document.getElementById("Estado").selectedIndex = 2;
+                            
+                    }
+
+                }
+              
                 localStorage.setItem("categoria", JSON.stringify(response));
             }
         });
     }
+    editarCategoria(id, funcion) {
+        var action = this.action;
+        var response = JSON.parse(localStorage.getItem("categoria"));
+        var nombre = response[0].nombre;
+        var descripcion = response[0].descripcion;
+        var estado = response[0].estado;
+        localStorage.removeItem("categria");
+        $.ajax({
+            type: "POST",
+            url: action,
+            data: { id, nombre, descripcion, estado, funcion },
+            success: (response) => {
+                console.log(response);
+                this.restablecer();
+            }
+        });
+     
+    }
+
+   
+   
 
     restablecer() {
         document.getElementById("Nombre").value = "";
@@ -85,6 +127,8 @@ class Categorias {
         document.getElementById("mensaje").value = "";
         document.getElementById("Estado").selectedIndex = 0;
         $("#modalAC").modal("hide");
+        $("#modalEstado").modal("hide");
+        filtrarDatos(1);
     }
 
    

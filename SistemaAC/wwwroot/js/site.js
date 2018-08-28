@@ -209,15 +209,20 @@ $().ready( () => {
 });
 
 var idCategoria;
+var funcion;
 
 var agregarCategoria = () => {
     var nombre = document.getElementById("Nombre").value;
     var descripcion = document.getElementById("Descripcion").value;
     var estados = document.getElementById("Estado");
     var estado = estados.options[estados.selectedIndex].value;
-    var action = 'Categorias/guardarCategoria';
+    if (funcion == 0) {
+        var action = 'Categorias/guardarCategoria';
+    } else {
+        var action = 'Categorias/editarCategoria';
+    }
     var categoria = new Categorias(nombre, descripcion, estado, action);
-    categoria.agregarCategoria();
+    categoria.agregarCategoria(idCategoria, funcion);
 }
 
 var filtrarDatos = (numPagina) => {
@@ -228,10 +233,18 @@ var filtrarDatos = (numPagina) => {
 
 }
 
-var editarEstado = (id) => {
+var editarEstado = (id, fun) => {
     idCategoria = id;
+    funcion = fun;
     var action = 'Categorias/getCategorias';
     var categoria = new Categorias("", "", "", action);
-    categoria.getCategorias(id);
+    categoria.getCategorias(id, funcion);
 
+}
+
+var editarCategoria = () => {
+    var action = 'Categorias/editarCategoria';
+    var categoria = new Categorias("", "", "", action);
+    categoria.editarCategoria(idCategoria, funcion);
+    $('#modalEstado').modal('hide');
 }

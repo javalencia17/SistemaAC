@@ -8,46 +8,46 @@
 </p>
 <div class="form-group">
     <div class="col-md-6">
-        <input type="text" name="filtrar" id="filtrar" placeholder="Buscar" onkeyup="filtrarDatos(1);" class="form-control"/>
+        <input type="text" name="filtrar" id="filtrar" placeholder="Buscar" onkeyup="filtrarDatos(1);" class="form-control" />
     </div>
 </div>
 @*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.CategoriaId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CategoriaId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CategoriaId">Delete</a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Estado)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>*@
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.CategoriaId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.CategoriaId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.CategoriaId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
 
 <table class="table">
     <thead>
@@ -104,3 +104,22 @@
         </div>
     </div>
 </div>
+
+<!-- Modal cambiar estado-->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modalEstado">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="titleCategoria"></h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="editarCategoria()">Cambiar estado</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
