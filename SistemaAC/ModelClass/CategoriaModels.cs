@@ -38,15 +38,34 @@ namespace SistemaAC.ModelClass
             return errorList;
         }
 
-        public List<object[]> filtrarDatos(int numPagina, string valor)
+        public List<object[]> filtrarDatos(int numPagina, string valor, string order)
         {
-            int count = 0, cant, numRegistros = 0, inicio = 0, reg_por_pagina = 3;
+            int count = 0, cant, numRegistros = 0, inicio = 0, reg_por_pagina = 2;
             int can_paginas, pagina;
             string dataFilter = "", paginador = "", Estado = null;
             List<object[]> data = new List<object[]>();
             IEnumerable<Categoria> query;
-            var categorias = context.Categoria.OrderBy(c => c.Nombre).ToList();
+            List<Categoria> categorias = null;
+            switch (order)
+            {
+                case "nombre":
+                    categorias = context.Categoria.OrderBy(c => c.Nombre).ToList();
+                    break;
+                case "des":
+                    categorias = context.Categoria.OrderBy(c => c.Descripcion).ToList();
+                    break;
+                case "estado":
+                    categorias = context.Categoria.OrderBy(c => c.Estado).ToList();
+                    break;
+
+                    
+            }
+            
             numRegistros = categorias.Count;
+            if ((numRegistros % reg_por_pagina) > 0)
+            {
+                numRegistros += 1;
+            }
             inicio = (numPagina - 1) * reg_por_pagina;
             can_paginas = (numRegistros/reg_por_pagina);    
             if (valor == "null")
@@ -84,6 +103,32 @@ namespace SistemaAC.ModelClass
                     "</td>" +
                     "</tr>";
 
+            }
+
+            if (valor == "null")
+            {
+                if (numPagina > 1)
+                {
+                    pagina = numPagina - 1;
+                    paginador += "<a class='btn btn default' onclick='filtrarDatos("+ 1 + ',' + '"' +
+                        order + '"' + ")'> << </a>"+
+                    "<a class='btn btn-default' onclick= 'filtrarDatos("+ pagina + ',' + '"'+order+'"'
+                        + ")'> < </a>";
+                }
+                if (1 < can_paginas)
+                {
+                    paginador += "<strong class='btn btn-success'>" + numPagina + ".de." + can_paginas +
+                        "</strong>";
+                }
+                if (numPagina < can_paginas)
+                {
+                    pagina = numPagina = 1;
+                    paginador += "<a class='btn btn-default' onclick='filtrarDatos("+ pagina + ',' + '"' +
+                        order + '"' + ")'> > </a>" +
+                                    "<a class='btn btn-default' onclick='filtrarDatos(" + can_paginas + ',' +
+                                    '"'+order+'"' + ")'>  >> </a>";
+                        ;
+                }
             }
             object[] dataObj = { dataFilter,paginador };
             data.Add(dataObj);
