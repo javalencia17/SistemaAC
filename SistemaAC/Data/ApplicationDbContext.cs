@@ -23,10 +23,10 @@ namespace SistemaAC.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<SistemaAC.Models.ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
-        public DbSet<SistemaAC.Models.Categoria> Categoria { get; set; }
+        public DbSet<Categoria> Categoria { get; set; }
 
-        public DbSet<SistemaAC.Models.Curso> Curso { get; set; }
+        public DbSet<Curso> Curso { get; set; }
     }
 }

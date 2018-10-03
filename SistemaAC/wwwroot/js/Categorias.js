@@ -73,7 +73,7 @@ class Categorias {
             url: action,
             data: { id },
             success: (response) => {
-                console.log(response);
+                //console.log(response);
                 if (funcion == 0) {
                     if (response[0].estado) {
                         document.getElementById("titleCategoria").innerHTML = "Esta seguro de desactivar la categoria" +
@@ -111,12 +111,14 @@ class Categorias {
             url: action,
             data: { id, nombre, descripcion, estado, funcion },
             success: (response) => {
-                console.log(response);
+                //console.log(response);
                 this.restablecer();
             }
         });
      
     }
+
+
 
    
    

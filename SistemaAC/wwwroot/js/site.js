@@ -1,6 +1,4 @@
 ﻿
-//  import { type } from "os";
-// Write your JavaScript code.
 $('#modalEditar').on('shown.bs.modal', function () {
     $('#myInput').focus()
 });
@@ -205,7 +203,8 @@ function crearUsuario(action)
 
 $().ready( () => {
     document.getElementById("filtrar").focus();
-    filtrarDatos(1,"nombre");
+    filtrarDatos(1, "nombre");
+    getCategorias();
 });
 $('#modalCS').on('show.bs.modal', () => {
     $('#Nombre').focus();
@@ -214,6 +213,9 @@ $('#modalCS').on('show.bs.modal', () => {
 var idCategoria;
 var funcion = 0;
 
+/**
+    CODIGO DE CATEGORIAS
+*/
 var agregarCategoria = () => {
     var nombre = document.getElementById("Nombre").value;
     var descripcion = document.getElementById("Descripcion").value;
@@ -250,4 +252,14 @@ var editarCategoria = () => {
     var categoria = new Categorias("", "", "", action);
     categoria.editarCategoria(idCategoria, funcion);
     $('#modalEstado').modal('hide');
+}
+
+/**
+    CODIGO DE CURSOS
+*/
+
+var getCategorias = () => {
+    var action = 'Cursos/getCategorias';
+    var cursos = new Cursos("", "", "", "", "", "", action);
+    cursos.getCategorias(); 
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaAC.Data;
+using SistemaAC.ModelClass;
 using SistemaAC.Models;
 
 namespace SistemaAC.Controllers
@@ -13,10 +14,12 @@ namespace SistemaAC.Controllers
     public class CursosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private CursoModels cursoModels;
 
         public CursosController(ApplicationDbContext context)
         {
             _context = context;
+            cursoModels = new CursoModels(context);
         }
 
         // GET: Cursos
@@ -24,6 +27,11 @@ namespace SistemaAC.Controllers
         {
             var applicationDbContext = _context.Curso.Include(c => c.categoria);
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        public List<Categoria> getCategorias()
+        {
+            return cursoModels.getCategorias();
         }
 
         // GET: Cursos/Details/5
