@@ -205,6 +205,7 @@ $().ready( () => {
     document.getElementById("filtrar").focus();
     filtrarDatos(1, "nombre");
     getCategorias();
+    filtrarCurso(1,"nombre");
 });
 $('#modalCS').on('show.bs.modal', () => {
     $('#Nombre').focus();
@@ -260,6 +261,30 @@ var editarCategoria = () => {
 
 var getCategorias = () => {
     var action = 'Cursos/getCategorias';
-    var cursos = new Cursos("", "", "", "", "", "", action);
+    var cursos = new Cursos("", "", "", "","" , "", "", action);
     cursos.getCategorias(); 
+}
+
+var agregarCurso = () => {
+    var action = "Cursos/agregarCurso";
+    var nombre = document.getElementById('Nombre').value;
+    var descripcion = document.getElementById('Descripcion').value;
+    var creditos = document.getElementById('Creditos').value;
+    var horas = document.getElementById('Horas').value;
+    var costo = document.getElementById('Costo').value;
+    var estado = document.getElementById('Estado').checked;
+    //var categorias = document.getElementById('CategoriaCursos').value;
+    //var categoria = categorias.options[categorias.selectedIndex].text;
+    var categoria = $('#CategoriaCursos').val();
+    var cursos = new Cursos(nombre, descripcion, creditos, horas, costo, estado, categoria, action);
+    cursos.agregarCurso("","");
+
+}
+
+var filtrarCurso = (numPagina, order) => {
+    var valor = document.getElementById('filtrar').value;
+    var action = 'Cursos/filtrarCurso';
+    var cursos = new Cursos(valor, "", "", "", "", "", "", action);
+    cursos.filtrarCurso(numPagina, order);
+
 }

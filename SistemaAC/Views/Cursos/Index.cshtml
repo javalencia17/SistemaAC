@@ -9,7 +9,7 @@
 
 <div class="form-group">
     <div class="col-md-6">
-        <input type="text" id="filtrar" placeholder="Buscar" onkeyup="" class="form-control"/>
+        <input type="text" id="filtrar" placeholder="Buscar" onkeyup="filtrarCurso(1,'Nombre')" class="form-control"/>
     </div>
 </div>
 <table class="table">
@@ -73,75 +73,6 @@
         }
     </tbody>
 </table>
-
- @*Modal 
-<div class="modal fade" id="modalCS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Agregar Curso</h4>
-            </div>
-            <div class="modal-body">
-                <form asp-action="">
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <label for="Nombre" class="col-md-2 control-label">Nombre</label>
-                            <div class="col-md-10">
-                                <input for="Nombre" name="Nombre" id="Nombre" placeholder="Nombre" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="Descripcion" class="col-md-2 control-label">Descripción</label>
-                            <div class="col-md-10">
-                                <input  for="Descripcion" name="Descripcion" id="Descripcion" placeholder="Descripcion" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="Creditos" class="col-md-2 control-label">Creditos</label>
-                            <div class="col-md-10">
-                                <input  for="Creditos"" name="Creditos" id="Creditos"  placeholder="Creditos" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="Horas" class="col-md-2 control-label">Horas</label>
-                            <div class="col-md-10">
-                                <input for="Horas" name="Horas" id="Horas" placeholder="Horas" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="Costos" class="col-md-2 control-label">Costos</label>
-                            <div class="col-md-10">
-                                <input for="Costos" name="Costos" id="Costos" placeholder="Costos" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="Estado" class="col-md-2 control-label">Estado</label>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="Estado" id="Estado" />
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="Categoria" class="col-md-2 control-label">Categoria</label>
-                            <div class="col-md-10">
-                                <select id="CategoriaCursos" class="form-control" >
-                                    <option value="0">Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <label id="mensaje" class="col-md-2 control-label"></label>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" onclick="agregarCurso()" class="btn btn-primary" >Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>*@
 
 <div class="modal fade" id="modalCS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
