@@ -1,4 +1,6 @@
-﻿
+﻿var promesa = new Promise((resolve, reject) => {
+
+})
 class Cursos {
 
     constructor(nombre, descripcion, creditos, horas, costo, estado, categoria, action) {
@@ -13,7 +15,7 @@ class Cursos {
     }
 
    
-    getCategorias() {
+    getCategorias(id, funcion) {
         var action = this.action;
         var count = 1;
         $.ajax({
@@ -21,11 +23,20 @@ class Cursos {
             url: action,
             data: {},
             success: (response) => {
-                console.log(action);
+                //console.log(action);
+                document.getElementById("CategoriaCursos").options[0] = new Option("Seleccione un curso",0);
                 if (0 < response.length) {
                     for (var i = 0; i < response.length; i++) {
-                        document.getElementById('CategoriaCursos').options[count] = new Option(response[i].nombre, response[i].categoriaId);
-                        count++;
+                        if (0 == funcion) {
+                            document.getElementById('CategoriaCursos').options[count] = new Option(response[i].nombre, response[i].categoriaId);
+                            count++;
+                        } else {
+                            if (id == response[i].categoriaId) {
+                                document.getElementById('CategoriaCursos').options[0] = new Option(response[i].nombre, response[0].categoriaId);    
+                                break;
+                            }
+                        }
+                       
                     }
                     
                 }
@@ -61,7 +72,7 @@ class Cursos {
                                 var categoria = this.categoria;
                                 var action = this.action;
 
-                                console.log(nombre);
+                                //console.log(nombre);
 
                                 $.ajax({
                                     type: 'POST',
@@ -86,18 +97,96 @@ class Cursos {
         }
     }
 
+    getCursos(id, fun) {
+        var action = this.action;
+        $.ajax({
+            type: 'POST',
+            url: action,
+            data: { id },
+            success: (response) => {
+                //console.log(response);
+                if (fun == 0) {
+                    if (response[0].estado == true) {
+                        document.getElementById('titleCurso').innerHTML = "Esta seguro de desactivar el curso"
+                            + response[0].nombre;
+                    } else {
+                        document.getElementById('titleCurso').innerHTML = "Esta seguro de habilitar el curso"
+                            + response[0].nombre;
+                    }
+                    promesa = Promise.resolve({
+                        id: response[0].cursoId,
+                        nombre: response[0].nombre,
+                        descripcion: response[0].descripcion,
+                        creditos: response[0].creditos,
+                        horas: response[0].horas,
+                        costo: response[0].costo,
+                        estado: response[0].estado,
+                        categoria: response[0].categoriaID
+                    });
+
+                } else {
+                    document.getElementById("Nombre").value = response[0].nombre;
+                    document.getElementById("Descripcion").value = response[0].descripcion;
+                    document.getElementById("Creditos").value = response[0].creditos;
+                    document.getElementById("Horas").value = response[0].horas;
+                    document.getElementById("Costo").value = response[0].costo;
+                    getCategorias(response[0].categoriaID, 1);
+                    if (response[0].estado == true) {
+                        document.getElementById("Estado").checked = true;
+                    } else {
+                        document.getElementById("Estado").checked = false;
+                    }
+                }
+            }
+        });
+    }
+
+    editarEstadoCurso(id, funcion) { 
+        var  nombre, descripcion, creditos, horas, costo, estado, categoria;
+        var action = this.action;
+        promesa.then(data => {
+            //id = data.id;
+            nombre = data.nombre;
+            descripcion = data.descripcion;
+            creditos = data.creditos;
+            horas = data.horas;
+            costo = data.costo;
+            estado = data.estado;
+            categoria = data.categoria;
+            $.ajax({
+                type: 'POST',
+                url: action,
+                data: { id, nombre, descripcion, creditos, horas, costo, estado, categoria, funcion },
+                success: (response) => {
+                    console.log("hola");
+                    if (response[0].code == "Save") {
+                        this.restablecer();
+                    } else {
+                        document.getElementById("titleCurso").innerHTML = response[0].descripcion;
+                    }
+                }
+            })
+        });
+     
+    }
+
+
 
     restablecer() {
         document.getElementById('Nombre').value = "";
         document.getElementById('Descripcion').value = "";
         document.getElementById('Creditos').value = "";
         document.getElementById('Horas').value = "";
-        document.getElemntById('Costo').value = "";
-        document.getElemntById('Estado').checked = false;
-        document.getElementById('CategoriaCursos').selectedIndex = 0;
-        categorias.options[categorias.selectedIndex].value = "";
+        document.getElementById('Costo').value = "";
+        document.getElementById('Estado').checked = false;
+        $('#CategoriaCursos').val(0);
+        //document.getElementById('CategoriaCursos').selectedIndex = 0;
+        //categorias.options[categorias.selectedIndex].value = "";
         document.getElementById('mensaje').innerHTML = "";
+        filtrarCurso(1,"nombre");
         $('#modalCS').modal('hide');
+        $('#modalEstadoCurso').modal('hide');
+
     }
 
     filtrarCurso(numPagina, order) {
@@ -117,5 +206,7 @@ class Cursos {
         });
 
     }
+
+   
 
 }

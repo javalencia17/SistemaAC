@@ -1,78 +1,51 @@
-﻿@model IEnumerable<SistemaAC.Models.Curso>
-@{
+﻿@{
     ViewData["Title"] = "Cursos";
 }
 <h2>Cursos</h2>
 <p>
-    <a data-toggle="modal" data-target="#modalCS" class="btn btn-info">Crear curso</a>
+    <a data-toggle="modal" onclick="restablecer()" data-target="#modalCS" class="btn btn-info">Crear curso</a>
 </p>
 
-<div class="form-group">
+<div class="form-group row">
     <div class="col-md-6">
         <input type="text" id="filtrar" placeholder="Buscar" onkeyup="filtrarCurso(1,'Nombre')" class="form-control"/>
     </div>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Creditos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Horas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Costo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.categoria)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+
+
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Creditos)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Horas)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Costo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.categoria.CategoriaId)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.CursoId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CursoId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CursoId">Delete</a>
-                </td>
+                <th>
+                    <a href="#" onclick="filtrarCurso(1, 'nombre')">Nombre</a>
+                </th>
+                <th>
+                    <a href="#" onclick="filtrarCurso(1, 'des')">Descripción</a>
+                </th>
+                <th>
+                    <a href="#" onclick="filtrarCurso(1, 'estado')">Creditos</a>
+                </th>
+                <th>
+                    <a href="#" onclick="filtrarCurso(1, 'nombre')">Horas</a>
+                </th>
+                <th>
+                    <a href="#" onclick="filtrarCurso(1, 'des')">Costo</a>
+                </th>
+                <th>
+                    <a href="#" onclick="filtrarCurso(1, 'estado')">Estado</a>
+                </th>
+                <th>
+                    <a href="#" onclick="filtrarCurso(1, 'des')">Categoria</a>
+                </th>
+                <th>
+                    Opciones
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody id="resultSearch"> </tbody>
+    </table>
+    <div id="paginadoCurso"></div>
+
 
 <div class="modal fade" id="modalCS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -126,7 +99,6 @@
                             <label for="Categoria" class="col-md-2 control-label">Categoria</label>
                             <div class="col-md-10">
                                 <select id='CategoriaCursos' class="form-control">
-                                    <option value='0'>Seleccione un curso</option>
                                 </select>
                             </div>
                         </div>
@@ -138,6 +110,24 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 <button type="button" onclick="agregarCurso()" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEstadoCurso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="titleCurso"></h4>
+            </div>
+            <div class="modal-body">
+         
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="editarEstadoCurso1()">Aceptar</button>
             </div>
         </div>
     </div>

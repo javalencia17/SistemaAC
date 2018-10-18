@@ -80,7 +80,7 @@ class Categorias {
                             response[0].nombre;
 
                     } else {
-                        document.getElementById("titleCategoria").innerHTML = "Esta seguro de habilitar la categoria " +
+                        document.getElementById("titleCategoria").innerHTML = "Esta seguro de habilitar la categoria" +
                             response[0].nombre;
                     }
                 } else {

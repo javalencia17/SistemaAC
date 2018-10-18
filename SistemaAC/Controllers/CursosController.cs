@@ -26,8 +26,7 @@ namespace SistemaAC.Controllers
         // GET: Cursos
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Curso.Include(c => c.categoria);
-            return View(await applicationDbContext.ToListAsync());
+            return View();
         }
 
         public List<Categoria> getCategorias()
@@ -41,10 +40,23 @@ namespace SistemaAC.Controllers
             return cursoModels.agregarCurso(id, nombre, descripcion, creditos, horas, costo, estado, categoria, funcion);
         }
 
+        
         public List<object[]> filtrarCurso(int numPagina, string valor, string order)
         {
             return cursoModels.filtrarCurso(numPagina, valor, order);
         }
+
+        public List<Curso> getCursos(int id)
+        {
+            return cursoModels.getCurso(id);
+        }
+
+        public List<IdentityError> editarCurso(int id, string nombre, string descripcion, byte creditos, 
+             byte horas, decimal costo, Boolean estado, int categoria, int funcion)
+        {
+            return cursoModels.editarCurso(id, nombre, descripcion, creditos, horas, costo, estado, categoria ,funcion);
+        }
+
 
         // GET: Cursos/Details/5
         public async Task<IActionResult> Details(int? id)
