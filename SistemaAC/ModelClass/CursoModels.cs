@@ -124,46 +124,46 @@ namespace SistemaAC.ModelClass
 
         public List<object[]> filtrarCurso(int numPagina, string valor, string order)
         {
-            int cant, numRegistros = 0, inicio = 0, reg_por_pagina = 2;
+            int cant, numRegistros = 0, inicio = 0, reg_por_pagina = 1;
             int cant_paginas, pagina;
             string dataFilter = "", paginador = "", Estado = null;
             List<Object[]> data = new List<object[]>();
             IEnumerable<Curso> query;
-            List<Curso> categorias = null;
+            List<Curso> cursos = null;
             switch (order)
             {
                 case "nombre":
-                    categorias = context.Curso.OrderBy(c => c.Nombre).ToList();
+                    cursos = context.Curso.OrderBy(c => c.Nombre).ToList();
                     break;
                 case "des":
-                    categorias = context.Curso.OrderBy(c => c.Descripcion).ToList();
+                    cursos = context.Curso.OrderBy(c => c.Descripcion).ToList();
                     break;
                 case "creditos":
-                    categorias = context.Curso.OrderBy(c => c.Creditos).ToList();
+                    cursos = context.Curso.OrderBy(c => c.Creditos).ToList();
                     break;
                 case "horas":
-                    categorias = context.Curso.OrderBy(c => c.Horas).ToList();
+                    cursos = context.Curso.OrderBy(c => c.Horas).ToList();
                     break;
                 case "costo":
-                    categorias = context.Curso.OrderBy(c => c.Costo).ToList();
+                    cursos = context.Curso.OrderBy(c => c.Costo).ToList();
                     break;
                 case "estado":
-                    categorias = context.Curso.OrderBy(c => c.Estado).ToList();
+                    cursos = context.Curso.OrderBy(c => c.Estado).ToList();
                     break;
                 case "categoria":
-                    categorias = context.Curso.OrderBy(c => c.categoria).ToList();
+                    cursos = context.Curso.OrderBy(c => c.categoria).ToList();
                     break;
             }
-            numRegistros = categorias.Count();
+            numRegistros = cursos.Count();
             inicio = (numPagina - 1) * reg_por_pagina;
             cant_paginas = (numRegistros / reg_por_pagina);
             if (valor == null)
             {
-                query = categorias.Skip(inicio).Take(reg_por_pagina);
+                query = cursos.Skip(inicio).Take(reg_por_pagina);
             }
             else
             {
-                query = categorias.Where(c => c.Nombre.StartsWith(valor) || c.Descripcion.StartsWith
+                query = cursos.Where(c => c.Nombre.StartsWith(valor) || c.Descripcion.StartsWith
                 (valor)).Skip(inicio).Take(reg_por_pagina);
             }
 
@@ -196,6 +196,32 @@ namespace SistemaAC.ModelClass
                       ',' + 1 + ")' class='btn btn-success'>Edit</a>" +
                     "</td>" +
                  "</tr>";
+            }
+            if (valor == null)
+            {
+                if (numPagina > 1)
+                {
+                    pagina = numPagina - 1;
+                    paginador += "<a class='btn btn-default' onclick='filtrarCurso(" + 1 + ',' + '"' +
+                        order + '"' + ")'> << </a>" +
+                       "<a class='btn btn-default' onclick='filtrarCurso(" + pagina + ',' + '"' + order + '"'
+                       + ")'> < </a>";
+
+                }
+                if (1 < cant_paginas)
+                {
+                    paginador += "<strong class='btn btn-success'> " + numPagina + ".de." + cant_paginas +
+                        "</strong>";
+                }
+                if (numPagina < cant_paginas)
+                {
+                    pagina = numPagina + 1;
+                    paginador += "<a class='btn btn-default' onclick='filtrarCurso(" + pagina + ',' + '"' + order + '"'
+                       + ")'> > </a>" +
+                        "<a class='btn btn-default' onclick='filtrarCurso(" + cant_paginas + ',' + '"' + order + '"'
+                       + ")'> >> </a>";
+
+                }
             }
 
             Object[] dataObj = { dataFilter, paginador };

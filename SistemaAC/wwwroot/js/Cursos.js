@@ -32,7 +32,8 @@ class Cursos {
                             count++;
                         } else {
                             if (id == response[i].categoriaId) {
-                                document.getElementById('CategoriaCursos').options[0] = new Option(response[i].nombre, response[0].categoriaId);    
+                                document.getElementById('CategoriaCursos').options[0] = new Option(response[i].nombre, response[0].categoriaId);
+                                document.getElementById('CategoriaCursos').selectedIndex = 0;
                                 break;
                             }
                         }
@@ -200,8 +201,12 @@ class Cursos {
             url: action,
             data: { valor, numPagina, order },
             success: (response) => {
-                $('#resultSearch').html(response[0]);
-                $('#paginado').html(response[1]);
+                console.log(response);
+                $.each(response, (index, val) => {
+                    $('#resultSearch').html(val[0]);
+                    $('#paginadoCurso').html(val[1]);
+                });
+               
             }
         });
 
