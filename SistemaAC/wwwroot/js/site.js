@@ -212,9 +212,16 @@ $().ready(() => {
             getCategorias(0, 0);
             filtrarCurso(1, "nombre");
             break;
+        case "/Estudiantes":
+            filtrarEstudiantes(1, "nombre");
+            break;
     }
 });
 $('#modalCS').on('show.bs.modal', () => {
+    $('#Nombre').focus();
+})
+
+$('#modalAS').on('show.bs.modal', () => {
     $('#Nombre').focus();
 })
 
@@ -319,4 +326,37 @@ var editarEstadoCurso1 = () => {
 var restablecer = () => {
     var cursos = new Cursos("", "", "", "", "", "", "", "");
     cursos.restablecer();
+}
+
+/**
+    CODIGO DE ESTUDIANTES
+*/
+
+var estudiante = new Estudiantes();
+var guardarEstudiante = () => {
+
+    if (funcion == 0) {
+        var action = 'Estudiantes/guardarEstudiante';
+    }
+    var id = 0;
+
+    
+    var codigo = document.getElementById('Codigo').value;
+    var nombre = document.getElementById('Nombre').value;
+    var apellidos = document.getElementById('Apellidos').value;
+    var fecha = document.getElementById('FechaNacimiento').value;
+    var documento = document.getElementById('Documento').value;
+    var email = document.getElementById('Email').value;
+    var telefono = document.getElementById('Telefono').value;
+    var direccion = document.getElementById('Direccion').value;
+    var estado = document.getElementById('Estado').checked;
+    estudiante.guardarEstudiante(id, funcion,action, codigo, nombre,apellidos,fecha,documento,email,telefono,
+        direccion, estado);
+}
+
+var filtrarEstudiantes = (numPagina, order) => {
+    var valor = document.getElementById("filtrar").value;
+    var action = "Estudiates/filtrarEstudiantes";
+    estudiante.filtrarEstudiantes(numPagina, valor, order, action);
+
 }

@@ -28,5 +28,13 @@ namespace SistemaAC.Data
         public DbSet<Categoria> Categoria { get; set; }
 
         public DbSet<Curso> Curso { get; set; }
+
+        public DbSet<Instructor> Instructor { get; set; }
+
+        public DbSet<Estudiante> Estudiante { get; set; }
+
+        public DbSet<Persona> Persona { get; set; }
+
+
     }
 }

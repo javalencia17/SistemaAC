@@ -1,0 +1,166 @@
+﻿@model IEnumerable<SistemaAC.Models.Estudiante>
+@{
+    ViewData["Title"] = "Index";
+}
+<h2>Index</h2>
+<p>
+    <a class="btn btn-info" data-toggle="modal" data-target="#modalAS">Crear Estudiante</a>
+</p>
+<div class="form-group">
+    <div class="col-md-6">
+        <input type="text" name="filtrar" id="filtrar"  placeholder="Buscar" onkeyup=""
+               class="form-control" />
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellidos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaNacimiento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Documento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellidos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaNacimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Documento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="modalAS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Agregar estudiante</h4>
+            </div>
+            <div class="modal-body">
+                <form asp-action="">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="Codigo" class="col-sm-2 control-label">Codigo</label>
+                            <div class="col-sm-10">
+                                <input type="text" for="Codigo" name="Codigo" id="Codigo" placeholder="Codigo" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Nombre" class="col-sm-2 control-label">Nombre</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Nombre" id="Nombre" placeholder="Nombre" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Apellidos" class="col-sm-2 control-label">Apellidos</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Apellidos" id="Apellidos" placeholder="Apellidos" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="FechaNacimiento" class="col-sm-2 control-label">Fecha nacimiento</label>
+                            <div class="col-sm-10">
+                                <input type="datetime-local" name="FechaNacimiento" id="FechaNacimiento" placeholder="Fecha nacimiento" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Documento" class="col-sm-2 control-label">Documento</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Documento" id="Documento" placeholder="Documento" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Email" class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" name="Email" id="Email" placeholder="Email" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Telefono" class="col-sm-2 control-label">Telefono</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Telefono" id="Telefono" placeholder="Telefono" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Direccion" class="col-sm-2 control-label">Dirección</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Direccion" id="Direccion" placeholder="Direccion" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Estado" class="col-sm-2 control-label">Estado</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="Estado" id="Estado"/>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <label id="mensaje" class="col-sm-2 control-label"></label>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarEstudiante()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
