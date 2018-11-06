@@ -203,7 +203,7 @@ function crearUsuario(action)
 
 $().ready(() => {
     var URLactual = window.location;
-    document.getElementById("filtrar").focus();
+    //document.getElementById("filtrar").focus();
     switch (URLactual.pathname) {
         case "/Categorias":
             filtrarDatos(1, "nombre");
@@ -214,6 +214,9 @@ $().ready(() => {
             break;
         case "/Estudiantes":
             filtrarEstudiantes(1, "nombre");
+            break;
+        case "/Instructores":
+            getInstructores();
             break;
     }
 });
@@ -226,6 +229,7 @@ $('#modalAS').on('show.bs.modal', () => {
 })
 
 var idCategoria, funcion = 0, idCurso;
+var idEstudiante = 0;
 
 /**
     CODIGO DE CATEGORIAS
@@ -334,13 +338,7 @@ var restablecer = () => {
 
 var estudiante = new Estudiantes();
 var guardarEstudiante = () => {
-
-    if (funcion == 0) {
-        var action = 'Estudiantes/guardarEstudiante';
-    }
-    var id = 0;
-
-    
+    var action = 'Estudiantes/guardarEstudiante';
     var codigo = document.getElementById('Codigo').value;
     var nombre = document.getElementById('Nombre').value;
     var apellidos = document.getElementById('Apellidos').value;
@@ -350,13 +348,62 @@ var guardarEstudiante = () => {
     var telefono = document.getElementById('Telefono').value;
     var direccion = document.getElementById('Direccion').value;
     var estado = document.getElementById('Estado').checked;
-    estudiante.guardarEstudiante(id, funcion,action, codigo, nombre,apellidos,fecha,documento,email,telefono,
+    estudiante.guardarEstudiante(idEstudiante, funcion,action, codigo, nombre,apellidos,fecha,documento,email,telefono,
         direccion, estado);
+    idEstudiante = 0;
 }
 
 var filtrarEstudiantes = (numPagina, order) => {
     var valor = document.getElementById("filtrar").value;
-    var action = "Estudiates/filtrarEstudiantes";
+    var action = "Estudiantes/filtrarEstudiantes";
     estudiante.filtrarEstudiantes(numPagina, valor, order, action);
 
 }
+
+var editarEstudiante = (id, fun) => {
+    funcion = fun;
+    idEstudiante = id;
+    var action = 'Estudiantes/getEstudiante';
+    estudiante.getEstudiante(id,fun,action);
+
+}
+
+var deleteEstudiante = (id) =>{
+    idEstudiante = id;
+}
+
+var deleteEstudiantes = () => {
+    var action = 'Estudiantes/deleteEstudiante';
+    estudiante.deleteEstudiantes(idEstudiante, action);
+    idEstudiante = 0; 
+}
+
+var restablecerEstudiantes = () => {
+    estudiante.restablecer();
+}
+
+/**
+    CODIGO DE INSTRUCTORES
+*/
+
+var instructor = new Instructores();
+
+var guardarInstructor = () => {
+    var action = "Instructores/GuardarInstructor";
+    var especialidad = document.getElementById("Especialidad").value;
+    var nombre = document.getElementById('Nombre').value;
+    var apellidos = document.getElementById('Apellidos').value;
+    var fecha = document.getElementById('FechaNacimiento').value;
+    var documento = document.getElementById('Documento').value;
+    var email = document.getElementById('Email').value;
+    var telefono = document.getElementById('Telefono').value;
+    var direccion = document.getElementById('Direccion').value;
+    var estado = document.getElementById('Estado').checked;
+    instructor.guardarInstructor(especialidad, nombre, apellidos, fecha, documento, email, telefono,
+        direccion, estado, action);
+}
+var getInstructores = () => { 
+    instructor.getInstructores();
+}
+
+

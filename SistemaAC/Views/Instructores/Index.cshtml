@@ -1,50 +1,43 @@
 ﻿@{
-    ViewData["Title"] = "Estudiantes";
+    ViewData["Title"] = "Instructores";
 }
-<h2>Estudiantes</h2>
+<h2>Instructores</h2>
+<div id="confirmacion"></div>
 <p>
-    <a class="btn btn-info" data-toggle="modal" data-target="#modalAS" onclick="restablecerEstudiantes();">Crear Estudiante</a>
+    <a data-toggle="modal" data-target="#modalIS" class="btn btn-info">Crear instructor</a>
 </p>
-<div class="form-group">
-    <div class="col-md-6">
-        <input type="text" name="filtrar" id="filtrar"  placeholder="Buscar" onkeyup="filtrarEstudiante(1,'nombre')"
-               class="form-control" />
-    </div>
-</div>
-<table class="table">
+<table class="table" id="tableInstructores">
     <thead>
         <tr>
-            <th>Codigo</th>
-            <th>Documento</th>
-            <th>Nombres</th>
+            <th>Especialidad</th>
+            <th>Nombre</th>
             <th>Apellidos</th>
             <th>Fecha nacimiento</th>
-            <th>Telefono</th>
+            <th>Documento</th>
             <th>Email</th>
+            <th>Telefono</th>
             <th>Direccion</th>
             <th>Estado</th>
-            <th>Opciones</th>
-        </tr>
+        </tr>  
     </thead>
-    <tbody id="resultSearch"></tbody>
-</table>
-<div id="paginado"></div>
-
+    <tbody id="resultTable"></tbody>
+</table> 
 <!-- Modal -->
-<div class="modal fade" id="modalAS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="modalIS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Agregar estudiante</h4>
+                <h4 class="modal-title" id="myModalLabel">Crear Instructor</h4>
             </div>
             <div class="modal-body">
                 <form asp-action="">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <label for="Codigo" class="col-sm-2 control-label">Codigo</label>
+                            <label for="Especialidad" class="col-sm-2 control-label">Especialidad</label>
                             <div class="col-sm-10">
-                                <input type="text" for="Codigo" name="Codigo" id="Codigo" placeholder="Codigo" class="form-control" />
+                                <input type="text" name="Especialidad" id="Especialidad" placeholder="Especialidad"
+                                       class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -68,13 +61,13 @@
                         <div class="form-group">
                             <label for="Documento" class="col-sm-2 control-label">Documento</label>
                             <div class="col-sm-10">
-                                <input type="text" name="Documento" id="Documento" placeholder="Documento" class="form-control"/>
+                                <input type="text" name="Documento" id="Documento" placeholder="Documento" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="Email" class="col-sm-2 control-label">Email</label>
                             <div class="col-sm-10">
-                                <input type="email" name="Email" id="Email" placeholder="Email" class="form-control"/>
+                                <input type="email" name="Email" id="Email" placeholder="Email" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -93,7 +86,7 @@
                             <label for="Estado" class="col-sm-2 control-label">Estado</label>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="Estado" id="Estado"/>
+                                    <input type="checkbox" name="Estado" id="Estado" />
                                 </label>
                             </div>
                         </div>
@@ -103,25 +96,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="guardarEstudiante()">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modalDeleteAS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Eliminar estudiante</h4>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="deleteEstudiantes()">Aceptar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarInstructor()">Guardar</button>
             </div>
         </div>
     </div>

@@ -8,6 +8,9 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <!-- Data table -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+        <!-- #Data table -->
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -36,6 +39,8 @@
                     <li><a asp-area="" asp-controller="Categorias" asp-action="Index">Categoria</a></li>
                     <li><a asp-area="" asp-controller="Cursos" asp-action="Index">Cursos</a></li>
                     <li><a asp-area="" asp-controller="Estudiantes" asp-action="Index">Estudiantes</a></li>
+                    <li><a asp-area="" asp-controller="Instructores" asp-action="Index">Instructores</a></li>
+
 
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -53,10 +58,17 @@
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <!-- Data table -->
+        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+
+        <!--# Data table -->
+
         <script src="~/js/Categorias.js" asp-append-version="true"></script>
         <script src="~/js/Cursos.js" asp-append-version="true"></script>
         <script src="~/js/Estudiantes.js" asp-append-version="true"></script>
+        <script src="~/js/Instructores.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+
 
 
     </environment>

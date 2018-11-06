@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,45 +12,40 @@ using SistemaAC.Models;
 
 namespace SistemaAC.Controllers
 {
-    public class EstudiantesController : Controller
+    public class InstructoresController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private EstudiantesModels estudiante;
+        // 1 creo la instancia 
+        private InstructorModels instructor;
 
-        public EstudiantesController(ApplicationDbContext context)
+        public InstructoresController(ApplicationDbContext context)
         {
             _context = context;
-            estudiante = new EstudiantesModels(context);
+            // 2 inicializa la instancia
+            instructor = new InstructorModels(context);
         }
 
-        // GET: Estudiantes
+        // GET: Instructors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Estudiante.ToListAsync());
+            return View(await _context.Instructor.ToListAsync());
         }
 
-        public List<IdentityError> guardarEstudiante(List<Estudiante> response, int funcion)
+        //POST: guardarInstructor
+        public List<IdentityError> GuardarInstructor(List<Instructor> parametros)
         {
-            return estudiante.guardarEstudiante(response, funcion);
+            return instructor.GuardarInstructor(parametros);
         }
 
-        public List<object[]> filtrarEstudiantes(int numPagina, string valor, string order)
+        // GET: getInstructor
+        public List<object[]> GetInstructores()
         {
-            return estudiante.filtrarEstudiantes(numPagina,valor,order);
-        }
-
-        public List<Estudiante> getEstudiante(int id)
-        {
-            return estudiante.getEstudiante(id);
-        }
-
-        public List<IdentityError> deleteEstudiante(int id)
-        {
-            return estudiante.deleteEstudiante(id);
+            return instructor.GetInstructores();
         }
 
 
-            // GET: Estudiantes/Details/5
+
+        // GET: Instructors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,39 +53,39 @@ namespace SistemaAC.Controllers
                 return NotFound();
             }
 
-            var estudiante = await _context.Estudiante
+            var instructor = await _context.Instructor
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (estudiante == null)
+            if (instructor == null)
             {
                 return NotFound();
             }
 
-            return View(estudiante);
+            return View(instructor);
         }
 
-        // GET: Estudiantes/Create
+        // GET: Instructors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Estudiantes/Create
+        // POST: Instructors/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Codigo,Id,Apellidos,Nombre,FechaNacimiento,Documento,Email,Telefono,Direccion,Estado")] Estudiante estudiante)
+        public async Task<IActionResult> Create([Bind("Especialidad,Id,Apellidos,Nombre,FechaNacimiento,Documento,Email,Telefono,Direccion,Estado")] Instructor instructor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(estudiante);
+                _context.Add(instructor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(estudiante);
+            return View(instructor);
         }
 
-        // GET: Estudiantes/Edit/5
+        // GET: Instructors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -98,22 +93,22 @@ namespace SistemaAC.Controllers
                 return NotFound();
             }
 
-            var estudiante = await _context.Estudiante.SingleOrDefaultAsync(m => m.Id == id);
-            if (estudiante == null)
+            var instructor = await _context.Instructor.SingleOrDefaultAsync(m => m.Id == id);
+            if (instructor == null)
             {
                 return NotFound();
             }
-            return View(estudiante);
+            return View(instructor);
         }
 
-        // POST: Estudiantes/Edit/5
+        // POST: Instructors/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Codigo,Id,Apellidos,Nombre,FechaNacimiento,Documento,Email,Telefono,Direccion,Estado")] Estudiante estudiante)
+        public async Task<IActionResult> Edit(int id, [Bind("Especialidad,Id,Apellidos,Nombre,FechaNacimiento,Documento,Email,Telefono,Direccion,Estado")] Instructor instructor)
         {
-            if (id != estudiante.Id)
+            if (id != instructor.Id)
             {
                 return NotFound();
             }
@@ -122,12 +117,12 @@ namespace SistemaAC.Controllers
             {
                 try
                 {
-                    _context.Update(estudiante);
+                    _context.Update(instructor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EstudianteExists(estudiante.Id))
+                    if (!InstructorExists(instructor.Id))
                     {
                         return NotFound();
                     }
@@ -138,10 +133,10 @@ namespace SistemaAC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(estudiante);
+            return View(instructor);
         }
 
-        // GET: Estudiantes/Delete/5
+        // GET: Instructors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -149,30 +144,30 @@ namespace SistemaAC.Controllers
                 return NotFound();
             }
 
-            var estudiante = await _context.Estudiante
+            var instructor = await _context.Instructor
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (estudiante == null)
+            if (instructor == null)
             {
                 return NotFound();
             }
 
-            return View(estudiante);
+            return View(instructor);
         }
 
-        // POST: Estudiantes/Delete/5
+        // POST: Instructors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var estudiante = await _context.Estudiante.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Estudiante.Remove(estudiante);
+            var instructor = await _context.Instructor.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Instructor.Remove(instructor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EstudianteExists(int id)
+        private bool InstructorExists(int id)
         {
-            return _context.Estudiante.Any(e => e.Id == id);
+            return _context.Instructor.Any(e => e.Id == id);
         }
     }
 }
