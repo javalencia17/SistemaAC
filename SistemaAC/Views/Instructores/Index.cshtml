@@ -18,10 +18,11 @@
             <th>Telefono</th>
             <th>Direccion</th>
             <th>Estado</th>
-        </tr>  
+            <th>Opciones</th>
+        </tr>
     </thead>
     <tbody id="resultTable"></tbody>
-</table> 
+</table>
 <!-- Modal -->
 <div class="modal fade" id="modalIS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -96,8 +97,90 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="GuardarInstructor()">Guardar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarInstructor()">Guardar</button>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalISE" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editar Instructor</h4>
+            </div>
+            <div class="modal-body">
+                <form asp-action="">
+                    <input type="hidden" name="idOculto" id="idOculto" />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="Especialidad" class="col-sm-2 control-label">Especialidad</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Especialidad" id="EspecialidadE" placeholder="Especialidad"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Nombre" class="col-sm-2 control-label">Nombre</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Nombre" id="NombreE" placeholder="Nombre" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Apellidos" class="col-sm-2 control-label">Apellidos</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Apellidos" id="ApellidosE" placeholder="Apellidos" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="FechaNacimiento" class="col-sm-2 control-label">Fecha nacimiento</label>
+                            <div class="col-sm-10">
+                                <input type="datetime-local" name="FechaNacimiento" id="FechaNacimientoE" placeholder="Fecha nacimiento" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Documento" class="col-sm-2 control-label">Documento</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Documento" id="DocumentoE" placeholder="Documento" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Email" class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" name="Email" id="EmailE" placeholder="Email" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Telefono" class="col-sm-2 control-label">Telefono</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Telefono" id="TelefonoE" placeholder="Telefono" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Direccion" class="col-sm-2 control-label">Dirección</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Direccion" id="DireccionE" placeholder="Direccion" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Estado" class="col-sm-2 control-label">Estado</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="Estado" id="EstadoE" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <label id="mensaje" class="col-sm-2 control-label"></label>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="updateInstructor()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

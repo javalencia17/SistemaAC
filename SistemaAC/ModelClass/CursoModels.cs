@@ -124,7 +124,7 @@ namespace SistemaAC.ModelClass
 
         public List<object[]> filtrarCurso(int numPagina, string valor, string order)
         {
-            int cant, numRegistros = 0, inicio = 0, reg_por_pagina = 1;
+            int cant, numRegistros = 0, inicio = 0, reg_por_pagina = 3;
             int cant_paginas, pagina;
             string dataFilter = "", paginador = "", Estado = null;
             List<Object[]> data = new List<object[]>();
@@ -155,6 +155,10 @@ namespace SistemaAC.ModelClass
                     break;
             }
             numRegistros = cursos.Count();
+            if ((numRegistros % reg_por_pagina) > 0)
+            {
+                numRegistros += 1;
+            }
             inicio = (numPagina - 1) * reg_por_pagina;
             cant_paginas = (numRegistros / reg_por_pagina);
             if (valor == null)
@@ -195,6 +199,9 @@ namespace SistemaAC.ModelClass
                     "<a data-toggle='modal' data-target='#modalCS' onclick='editarEstadoCurso(" + item.CursoId +
                       ',' + 1 + ")' class='btn btn-success'>Edit</a>" +
                     "</td>" +
+                    "<td>" +
+                        getInstructorCurso(item.CursoId)
+                    + "</td>" +
                  "</tr>";
             }
             if (valor == null)
@@ -227,6 +234,62 @@ namespace SistemaAC.ModelClass
             Object[] dataObj = { dataFilter, paginador };
             data.Add(dataObj);
             return data;
+
+        }
+
+        private string getInstructorCurso(int cursoID) 
+        {
+            string boton;
+            var data = context.Asignacion.Where(c => c.CursoID == cursoID).ToList();
+
+            if (data.Count > 0)
+            {
+                boton = "<a href='#' onclick='getInstructorCurso(" + data[0].AsignacionID + ',' + cursoID + ','
+                    + data[0].InstructorID + ',' + 2 + ")' class='btn btn-info'> Actualizar</a>";
+            }
+            else
+            {
+                boton = "<a href='#' onclick='getInstructorCurso(" + 0 + ',' + cursoID + ','
+                    + 0 + ',' + 3 + ")' class='btn btn-info'> Asignar</a>";
+            }
+
+            return boton;
+
+        }
+
+        internal List<Instructor> getInstructor()
+        {
+            return context.Instructor.Where(c => c.Estado == true).ToList();
+        }
+
+        internal List<IdentityError> instructorCurso(List<Asignacion> asig)
+        {
+            var asignacion = new Asignacion
+            {
+                AsignacionID = asig[0].AsignacionID,
+                CursoID = asig[0].CursoID,
+                InstructorID = asig[0].InstructorID,
+                Fecha = asig[0].Fecha
+            };
+
+            try
+            {
+                context.Update(asignacion);
+                context.SaveChanges();
+                code = "Save";
+                des = "Save";
+            }
+            catch (Exception ex)
+            {
+                code = "Error";
+                des = ex.Message;
+            }
+            errorList.Add(new IdentityError {
+                Code = code,
+                Description = des
+            });
+
+            return errorList;
 
         }
     }

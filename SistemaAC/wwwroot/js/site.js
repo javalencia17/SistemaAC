@@ -229,7 +229,8 @@ $('#modalAS').on('show.bs.modal', () => {
 })
 
 var idCategoria, funcion = 0, idCurso;
-var idEstudiante = 0;
+var idEstudiante = 0, idInstructor = 0;
+var asignacionID = 0;
 
 /**
     CODIGO DE CATEGORIAS
@@ -332,6 +333,30 @@ var restablecer = () => {
     cursos.restablecer();
 }
 
+var getInstructorCurso = (asignacion, curso, instructor, fun) => {
+    $('#modalAsignacion').modal('show');
+    idCurso = curso;
+    asignacionID = asignacion;  
+    var action = 'Cursos/getCursos';
+    var cursos = new Cursos("", "", "", "", "", "", "", action);
+    cursos.getCursos(curso, fun);
+    var action = "Cursos/getInstructor";
+    cursos.getInstructors(instructor, fun, action);
+    
+
+}
+
+var instructorCurso = () => {
+    var action = 'Cursos/instructorCurso';
+    var instructors = document.getElementById("instructorsCursos")
+    var instructor = instructors.options[instructors.selectedIndex].value;
+    var fecha = document.getElementById("Fecha").value;
+    var cursos = new Cursos("", "", "", "", "", "", "", "");
+    cursos.instructorCurso(asignacionID, idCurso, instructor, fecha, action);
+    asignacionID = 0;
+    idCurso = 0;
+}
+
 /**
     CODIGO DE ESTUDIANTES
 */
@@ -405,5 +430,46 @@ var guardarInstructor = () => {
 var getInstructores = () => { 
     instructor.getInstructores();
 }
+
+var editarInstructor = (id, fun) => {
+    funcion = fun;
+    idInstructor  = id;
+    var action = 'Instructores/getInstructor';
+    instructor.getInstructor(id, funcion, action);
+}
+var eliminarInstructor = (id) => {
+    swal({
+        title: "Esta seguro?",
+        text: "Una vez Eliminado,No se podra recuperar los datos !",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            var action = 'Instructores/deleteInstructor';
+            instructor.deleteInstructor(id,action);
+        } 
+    });
+}
+
+var updateInstructor = () =>{
+    var action = "Instructores/updateInstructor";
+    var especialidad = document.getElementById("EspecialidadE").value;
+    var nombre = document.getElementById('NombreE').value;
+    var apellidos = document.getElementById('ApellidosE').value;
+    var fecha = document.getElementById('FechaNacimientoE').value;
+    var documento = document.getElementById('DocumentoE').value;
+    var email = document.getElementById('EmailE').value;
+    var telefono = document.getElementById('TelefonoE').value;
+    var direccion = document.getElementById('DireccionE').value;
+    var estado = document.getElementById('EstadoE').checked;
+    var id = document.getElementById('idOculto').value;
+    
+    instructor.updateInstructor(especialidad, nombre, apellidos, fecha, documento, email, telefono,
+        direccion, estado,id, action);
+}
+
+
 
 

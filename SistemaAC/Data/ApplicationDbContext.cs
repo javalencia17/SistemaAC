@@ -35,6 +35,10 @@ namespace SistemaAC.Data
 
         public DbSet<Persona> Persona { get; set; }
 
+        public DbSet<Asignacion> Asignacion { get; set; }
+
+        public DbSet<Inscripcion> Inscripcion { get; set; }
+
 
     }
 }

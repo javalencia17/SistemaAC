@@ -77,6 +77,17 @@ namespace SistemaAC.Controllers
             return View(curso);
         }
 
-       
+        public List<Instructor> getInstructor()
+        {
+            return cursoModels.getInstructor();
+        }
+
+        public List<IdentityError> instructorCurso(List<Asignacion> asignacion)
+        {
+            return cursoModels.instructorCurso(asignacion);
+        }
+
+
+
     }
 }

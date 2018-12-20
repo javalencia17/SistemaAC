@@ -132,3 +132,45 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalAsignacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="titleCurso"></h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">     
+                    <tbody>
+                        <tr>
+                            <td>Curso:</td>
+                            <td>
+                                <h5 id="cursoTitle"></h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Docente:</td>
+                            <td>
+                                <select id="instructorsCursos" class="form-control"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Fecha:</td>
+                            <td>
+                                <input type="datetime-local" for="Fecha" id="Fecha" placeholder="Fecha"
+                                       style="width:100%" name="Fecha" class="form-control"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="instructorCurso()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

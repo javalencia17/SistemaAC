@@ -105,7 +105,7 @@ class Cursos {
             url: action,
             data: { id },
             success: (response) => {
-                //console.log(response);
+                
                 if (fun == 0) {
                     if (response[0].estado == true) {
                         document.getElementById('titleCurso').innerHTML = "Esta seguro de desactivar el curso"
@@ -138,6 +138,10 @@ class Cursos {
                         document.getElementById("Estado").checked = false;
                     }
                 }
+                if (fun == 2 || fun == 3) {
+                   
+                    document.getElementById("cursoTitle").innerHTML = response[0].nombre;
+                }
             }
         });
     }
@@ -159,7 +163,7 @@ class Cursos {
                 url: action,
                 data: { id, nombre, descripcion, creditos, horas, costo, estado, categoria, funcion },
                 success: (response) => {
-                    console.log("hola");
+                    //console.log("hola");
                     if (response[0].code == "Save") {
                         this.restablecer();
                     } else {
@@ -170,25 +174,7 @@ class Cursos {
         });
      
     }
-
-
-
-    restablecer() {
-        document.getElementById('Nombre').value = "";
-        document.getElementById('Descripcion').value = "";
-        document.getElementById('Creditos').value = "";
-        document.getElementById('Horas').value = "";
-        document.getElementById('Costo').value = "";
-        document.getElementById('Estado').checked = false;
-        $('#CategoriaCursos').val(0);
-        //document.getElementById('CategoriaCursos').selectedIndex = 0;
-        //categorias.options[categorias.selectedIndex].value = "";
-        document.getElementById('mensaje').innerHTML = "";
-        filtrarCurso(1,"nombre");
-        $('#modalCS').modal('hide');
-        $('#modalEstadoCurso').modal('hide');
-
-    }
+    
 
     filtrarCurso(numPagina, order) {
         var valor = this.nombre;
@@ -201,7 +187,7 @@ class Cursos {
             url: action,
             data: { valor, numPagina, order },
             success: (response) => {
-                console.log(response);
+                console.log(numPagina);
                 $.each(response, (index, val) => {
                     $('#resultSearch').html(val[0]);
                     $('#paginadoCurso').html(val[1]);
@@ -209,6 +195,85 @@ class Cursos {
                
             }
         });
+
+    }
+
+
+    getInstructors(instructor, fun, action) {
+        var count = 1;
+        $.ajax({
+            type: 'POST',
+            url: action,
+            data: null,
+            success: (response) => {
+                document.getElementById("instructorsCursos").options[0] = new Option("seleccione" +
+                    "un instructor", 0);
+                if (response.length > 0) {
+                    for (var i = 0; i < response.length; i++) {
+                        if (fun == 3) {
+                            document.getElementById("instructorsCursos").options[count] = new Option(response[i].nombre,
+                                response[i].id);
+                            count++;
+                        } else {
+                            if (instructor == response[i].id) {
+                                document.getElementById("instructorsCursos").options[0] = new Option(response[i].nombre,
+                                    response[i].id);
+                                document.getElementById("instructorsCursos").selectedIndex = 0;
+                            } else {
+                                document.getElementById("instructorsCursos").options[count] = new Option(response[i].nombre,
+                                    response[i].id);
+                                count++;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+
+
+    instructorCurso(asignacionID, idCurso, instructor, fecha, action) {
+        var asignacion = new Array({
+            asignacionID: asignacionID,
+            cursoID: idCurso,
+            instructorID: instructor,
+            fecha: fecha
+        });
+
+        $.ajax({
+            type: "POST",
+            url: action,
+            data: { asignacion },
+            success: (response) => {
+                console.log(response);
+                console.log("hola" + response[0].code);
+                if (response[0].code == "Save") {
+                    //$('#modalAsignacion').modal('hide');
+                    this.restablecer();
+                } else {
+                    document.getElementById('cursoTitle').innerHTML = response[0].descripcion;
+                }
+            }
+        });
+    }
+
+    restablecer() {
+        document.getElementById('Nombre').value = "";
+        document.getElementById('Descripcion').value = "";
+        document.getElementById('Creditos').value = "";
+        document.getElementById('Horas').value = "";
+        document.getElementById('Costo').value = "";
+        document.getElementById('Estado').checked = false;
+        $('#CategoriaCursos').val(0);
+        //document.getElementById('CategoriaCursos').selectedIndex = 0;
+        //categorias.options[categorias.selectedIndex].value = "";
+        document.getElementById('mensaje').innerHTML = "";
+        filtrarCurso(1, "nombre");
+        $('#modalCS').modal('hide');
+        $('#modalEstadoCurso').modal('hide');
+        $('#modalAsignacion').modal('hide');
 
     }
 
