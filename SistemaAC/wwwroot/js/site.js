@@ -218,6 +218,14 @@ $().ready(() => {
         case "/Instructores":
             getInstructores();
             break;
+        case "/Inscripciones":
+            filtrarEstudianteInscripcion();
+            filtrarCursoInscripcion();
+            mostrarCursos();
+            break;
+        case "/MisCursos":
+            filtrarMisCursos(1);
+            break;
     }
 });
 $('#modalCS').on('show.bs.modal', () => {
@@ -468,6 +476,101 @@ var updateInstructor = () =>{
     
     instructor.updateInstructor(especialidad, nombre, apellidos, fecha, documento, email, telefono,
         direccion, estado,id, action);
+}
+
+/**
+    CODIGO DE INSCRIPCIONES 
+*/
+
+
+var inscripciones = new Inscripciones();
+
+var filtrarEstudianteInscripcion = () => {
+    var action = "Inscripciones/filtrarEstudiante";
+    var valor = document.getElementById("filtrar").value;
+    inscripciones.filtrarEstudiante(valor, action);
+}
+
+var getEstudiante = () => {
+    var count = 0, id;
+    var chk = document.getElementsByName('cboxEstudiante[]');
+    for (var i = 0; i < chk.length; i++) {
+        if (chk[i].checked) {
+            id = chk[i].value;
+            count++;
+        }
+    }
+    if (count > 1) {
+        document.getElementById("mensajeEstudiante").innerHTML = "Seleccione un estudiante";
+    } else {
+        var action = 'Inscripciones/getEstudiante';
+        inscripciones.getEstudiante(id, action);
+    }
+}
+
+var filtrarCursoInscripcion = () => {
+    var action = "Inscripciones/filtrarCurso";
+    var valor = document.getElementById("filtrarCurso").value;
+    inscripciones.filtrarCurso(valor, action);
+}
+
+var getCurso = () => {
+    var count = 0, id;
+    var chk = document.getElementsByName('cboxCurso[]');
+    for (var i = 0; i < chk.length; i++) {
+        if (chk[i].checked) {
+            id = chk[i].value;
+            count++;
+        }
+    }
+    if (count > 1) {
+        document.getElementById("mensajeEstudiante").innerHTML = "Seleccione un curso";
+    } else {
+        var action = 'Inscripciones/getCurso';
+        inscripciones.getCurso(id, action);
+    }
+}
+
+var addCursos = () => {
+    var estudiante = document.getElementById("Estudiante").value;
+    var curso = document.getElementById("InscripcionCurso").value;
+    var grado = document.getElementById("Grado").value;
+    var costo = document.getElementById("Costo").value;
+    inscripciones.addCursos(estudiante, curso, grado, costo);
+
+
+}
+
+var mostrarCursos = () => {
+    inscripciones.mostrarCursos();
+}
+
+var deleteCurso = (id) => {
+    inscripciones.deleteCurso(id);
+}
+
+var guardarCursos = () => {
+    inscripciones.guardarCursos();
+}
+
+var restablecer = () => {
+    inscripciones.deleteData();
+}
+
+
+/**
+    CODIGO DE MIS CURSOS   
+ */
+
+var misCursos = new MisCursos();
+
+var filtrarMisCursos = (pagina) => {
+    var valor = document.getElementById("filtrar").value;
+    misCursos.filtrarMisCursos(pagina, valor);
+}
+
+var getMisCursos = (curso, id) => {
+    misCursos.getMisCursos(curso, id);
 }
 
 
