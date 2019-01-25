@@ -80,7 +80,7 @@ namespace SistemaAC.ModelClass
                     "<td>" + '$' + item.Pago+ "</td>" +
                     "<td>" + item.Fecha + "</td>" +
                     "<td>" +
-                    "<a data-toggle='modal' data-target='#modalMisCS' onclick='getMisCursos(" +
+                    "<a data-toggle='modal' data-target='#modalMisCS' onclick='getMisCurso(" +
                         JsonConvert.SerializeObject(dataCurso) + ',' + item.InscripcionID + ")' class='btn btn-success' >Edit</a>" +  
                     "</td>" +
                     "</tr>";
@@ -91,6 +91,38 @@ namespace SistemaAC.ModelClass
             return data;
 
 
+        }
+
+        internal List<Curso> getMisCursos(string query)
+        {
+            cursos = getCursos(query);
+            cursos.ForEach(item => 
+            {
+                if (getAsignacion2(item.CursoId))
+                {
+                    misCursos.Add( new Curso
+                    {
+                        CursoId = item.CursoId,
+                        Nombre = item.Nombre
+                    });
+
+                }
+            });
+            return misCursos;
+        }
+
+        private bool getAsignacion2(int id)
+        {
+            var asignacion = context.Asignacion.Where(c => c.CursoID == id).ToList();
+
+            if (0 < asignacion.Count)
+            {
+                return true;
+            }
+            else
+            {
+                return false;     
+            }
         }
 
         public List<Curso> getCursos(string curso)

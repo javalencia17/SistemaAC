@@ -20,7 +20,21 @@ class MisCursos
         });
     }
 
-    getMisCursos(curso, id) {
+    getMisCursos(query, result) {
+        $.ajax({
+            type: "POST",
+            url: "MisCursos/getMisCursos",
+            data: { query},
+            success: (response) => {
+                result($.map(response, function (item) {
+                    console.log(item.nombre);
+                    return item.nombre;
+                }));
+            }
+        });
+    }
+
+    getMisCurso(curso, id) {
         document.getElementById("Curso").value = curso[0];
         document.getElementById("Estudiante").value = curso[1];
         document.getElementById("Docente").value = curso[2];
@@ -28,11 +42,8 @@ class MisCursos
         document.getElementById("Pago").value = curso[4];
         document.getElementById("Fecha").value = curso[5];
 
-
-
-
-
-
     }
+
+    
 
 }

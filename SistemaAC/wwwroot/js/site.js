@@ -569,8 +569,18 @@ var filtrarMisCursos = (pagina) => {
     misCursos.filtrarMisCursos(pagina, valor);
 }
 
-var getMisCursos = (curso, id) => {
-    misCursos.getMisCursos(curso, id);
+var getMisCurso = (curso, id) => {
+    misCursos.getMisCurso(curso, id);
+}
+
+$('#Curso').typeahead({
+    source: function (query, result) {
+        getMisCursos(query, result); 
+    }
+});
+
+var getMisCursos = (query, result) => {
+    misCursos.getMisCursos(query, result);
 }
 
 
