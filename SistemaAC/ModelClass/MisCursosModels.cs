@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using SistemaAC.Data;
 using SistemaAC.Models;
@@ -13,6 +14,7 @@ namespace SistemaAC.ModelClass
         private string dataFilter = "", paginador = "", curso;
         private int count = 0, cant, numRegistros = 0, inicio = 0, reg_por_pagina = 2;
         private int can_paginas, pagina;
+        private string code = "", des = "";
 
         public MisCursosModels(ApplicationDbContext context)
         {
@@ -93,6 +95,54 @@ namespace SistemaAC.ModelClass
 
         }
 
+        internal List<IdentityError> actualizarMisCurso(DataCurso model)
+        {
+            var curso = context.Curso.Where(c => c.Nombre.Equals(model.Curso)).ToList();
+            var estudiantes = model.Estudiante.Split();
+            var estudiante = context.Estudiante.Where(c => c.Nombre.Equals(estudiantes[0]) ||
+                  c.Apellidos.Equals(estudiantes[1])).ToList();
+            var inscripcion = new Inscripcion
+            {
+                InscripcionID = model.InscripcionID,
+                Grado = model.Grado,
+                CursoID = curso[0].CursoId,
+                EstudianteID  = estudiante[0].Id,
+                Fecha = model.Fecha,
+                Pago = model.Pago
+            };
+
+            try
+            {
+                context.Update(inscripcion);
+                context.SaveChanges();
+                code = "Save";
+                des = "Save";
+            }
+            catch (Exception e)
+            {   
+                code = "Error";
+                des = e.Message;
+            }
+
+            errorList.Add(new IdentityError
+            {
+                Code = code,
+                Description = des
+            });
+
+            return errorList; 
+        }
+
+        internal List<Instructor> getMisDocentes(string query)
+        {
+            return context.Instructor.Where(c => c.Nombre.StartsWith(query) || c.Apellidos.StartsWith(query)).ToList();
+        }
+
+        internal List<Estudiante> getMisEstudiantes(string query)
+        {
+            return context.Estudiante.Where(c => c.Nombre.StartsWith(query) || c.Apellidos.StartsWith(query)).ToList();
+        }
+
         internal List<Curso> getMisCursos(string query)
         {
             cursos = getCursos(query);
@@ -141,7 +191,7 @@ namespace SistemaAC.ModelClass
         {
             var estudiante = context.Estudiante.Where(e => e.Id == idEstudiante).ToList();
 
-            return estudiante[0].Nombre;
+            return estudiante[0].Nombre + " " +estudiante[0].Apellidos;
         }
 
         public int getAsignacion(int id)
@@ -153,7 +203,7 @@ namespace SistemaAC.ModelClass
         public string getInstructor(int id)
         {
             var instructor = context.Instructor.Where(a => a.Id == id).ToList();
-            return instructor[0].Nombre;
+            return instructor[0].Nombre + " " + instructor[0].Apellidos;
         }
 
     }
